@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import nz.ac.auckland.se281.Main.PolicyType;
 
 public class InsuranceSystem {
-  private String userName;
-  private String age;
 
-  public InsuranceSystem(String userName, String age) {
-    this.userName = userName;
-    this.age = age;
-  }
+  public InsuranceSystem() {}
 
   // initialises arraylist of users
-  ArrayList<InsuranceSystem> userList = new ArrayList<InsuranceSystem>();
+  ArrayList<User> userList = new ArrayList<User>();
 
   public void printDatabase() {
     // checks how many profiles present
@@ -21,22 +16,24 @@ public class InsuranceSystem {
 
     switch (userCount) {
       case 1:
-        MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", " ", ":");
+        MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
         break;
       case 0:
         MessageCli.PRINT_DB_POLICY_COUNT.printMessage("0", "s", ".");
+        break;
       default:
         MessageCli.PRINT_DB_POLICY_COUNT.printMessage(Integer.toString(userCount), "s", ":");
         break;
     }
 
     // initilialises position number for users to be listed
-    int pos = 0;
+    int pos = 1;
 
     // Lists each user using for each loop
-    for (InsuranceSystem user : userList) {
+    for (User user : userList) {
       MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-          Integer.toString(pos), user.userName, user.age);
+          Integer.toString(pos), user.getUserName(), user.getAge());
+      pos++;
     }
   }
 
@@ -48,20 +45,31 @@ public class InsuranceSystem {
       return;
     }
 
+    // removes all spaces in userName (for checking case where only spaces are added)
+    String userNameWithoutSpace = userName.replaceAll(" ", "");
+
     // checks if username is more than 3 characters
-    if (userName.length() < 3) {
+    if (userNameWithoutSpace.length() < 3) {
       MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(userName);
+      return;
     }
 
     // checks if username is unique, if not returns error message
-    for (InsuranceSystem user : userList) {
-      if (user.userName.toLowerCase() == userName.toLowerCase()) {
+    for (User user : userList) {
+      if (user.getUserName().toLowerCase() == userNameWithoutSpace.toLowerCase()) {
         MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
+        return;
       }
     }
 
-    // if age and username is valid, puts profile in arraylist
-    userList.add(new InsuranceSystem(userName, age));
+    // if age and username is valid, changes username to properly capitalised version, and puts
+    // profile in arraylist
+    String capitalisedUserName =
+        userNameWithoutSpace.substring(0, 1).toUpperCase()
+            + userNameWithoutSpace.substring(1).toLowerCase();
+    User newUser = new User(capitalisedUserName, age);
+    userList.add(newUser);
+    MessageCli.PROFILE_CREATED.printMessage(capitalisedUserName, age);
   }
 
   public void loadProfile(String userName) {
