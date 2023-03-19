@@ -76,6 +76,15 @@ public class MainTest {
       assertDoesNotContain("jorDan");
       assertDoesNotContain("TOM");
     }
+
+    @Test
+    public void T1_07_negative_age() throws Exception {
+      runCommands(CREATE_PROFILE, "Jordan", "-1", PRINT_DB);
+      assertContains("Database has 0 profiles.");
+      assertContains(
+          "'-1' is an invalid age, please provide a positive whole number only. No profile was"
+              + " created for Jordan.");
+    }
   }
 
   public static class Task2 extends CliTest {
