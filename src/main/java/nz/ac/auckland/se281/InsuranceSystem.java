@@ -8,12 +8,13 @@ public class InsuranceSystem {
   public InsuranceSystem() {}
 
   // initialises arraylist of users
-  ArrayList<User> userList = new ArrayList<User>();
+  private ArrayList<User> userList = new ArrayList<User>();
 
   public void printDatabase() {
     // checks how many profiles present
     int userCount = userList.size();
 
+    // prints appropiate message
     switch (userCount) {
       case 1:
         MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
