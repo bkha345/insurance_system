@@ -85,6 +85,16 @@ public class MainTest {
           "'-1' is an invalid age, please provide a positive whole number only. No profile was"
               + " created for Jordan.");
     }
+
+    @Test
+    public void T1_08_duplicate_user() throws Exception {
+      runCommands(
+          CREATE_PROFILE, "Jordan", "26", PRINT_DB, CREATE_PROFILE, "JoRdAn", "25", PRINT_DB);
+      assertContains("Database has 1 profile:");
+      assertContains("New profile created for Jordan with age 26.");
+      assertContains("1: Jordan, 26");
+      assertContains("Usernames must be unique. No profile was created for 'JoRdAn'.");
+    }
   }
 
   public static class Task2 extends CliTest {

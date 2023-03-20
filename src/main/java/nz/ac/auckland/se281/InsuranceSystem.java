@@ -57,7 +57,7 @@ public class InsuranceSystem {
 
     // checks if username is unique, if not returns error message
     for (User user : userList) {
-      if (user.getUserName().toLowerCase() == userNameWithoutSpace.toLowerCase()) {
+      if (user.getUserName().toLowerCase().equals(userNameWithoutSpace.toLowerCase())) {
         MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
         return;
       }
