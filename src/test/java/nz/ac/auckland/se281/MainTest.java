@@ -12,7 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
   MainTest.Task1.class,
-  // MainTest.Task2.class, // Uncomment this line when to start Task 2
+  MainTest.Task2.class, // Uncomment this line when to start Task 2
   // MainTest.Task3.class, // Uncomment this line when to start Task 3
   // MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
@@ -93,7 +93,46 @@ public class MainTest {
       assertContains("Database has 1 profile:");
       assertContains("New profile created for Jordan with age 26.");
       assertContains("1: Jordan, 26");
-      assertContains("Usernames must be unique. No profile was created for 'JoRdAn'.");
+      assertContains("Usernames must be unique. No profile was created for 'Jordan'.");
+    }
+
+    @Test
+    public void T1_09_add_ignore_duplicate_added_later() throws Exception {
+      runCommands(
+          CREATE_PROFILE,
+          "tom",
+          "21", //
+          CREATE_PROFILE,
+          "jordan",
+          "25", //
+          CREATE_PROFILE,
+          "Jenny",
+          "23", //
+          CREATE_PROFILE,
+          "TOM",
+          "32", //
+          PRINT_DB);
+      assertContains("Database has 3 profiles:");
+      assertContains("1: Tom, 21");
+      assertContains("2: Jordan, 25");
+      assertContains("3: Jenny, 23");
+
+      assertContains("Usernames must be unique. No profile was created for 'Tom'.");
+
+      assertDoesNotContain("Database has 4 profiles", true);
+      assertDoesNotContain("Tom, 32", true);
+    }
+
+    @Test
+    public void T1_10_ignore_short_name_to_titlecase() throws Exception {
+      runCommands(CREATE_PROFILE, "aL", "21", PRINT_DB);
+      assertContains("Database has 0 profiles.");
+      assertContains(
+          "'Al' is an invalid username, it should be at least 3 characters long. No profile was"
+              + " created.");
+      assertDoesNotContain("Database has 1 profile", true);
+      assertDoesNotContain("New profile created", true);
+      assertDoesNotContain("21");
     }
   }
 
