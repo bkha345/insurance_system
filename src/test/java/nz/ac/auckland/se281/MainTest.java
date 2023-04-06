@@ -13,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
   MainTest.Task1.class,
   MainTest.Task2.class, // Uncomment this line when to start Task 2
-  // MainTest.Task3.class, // Uncomment this line when to start Task 3
+  MainTest.Task3.class, // Uncomment this line when to start Task 3
   // MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
 public class MainTest {
@@ -143,7 +143,7 @@ public class MainTest {
 
     @Test
     public void T2_01_load_profile_found() throws Exception {
-      runCommands(unpack(CREATE_SOME_CLIENTS, LOAD_PROFILE, "Tom"));
+      runCommands(unpack(CREATE_SOME_CLIENTS, LOAD_PROFILE, "TOm"));
 
       assertContains("Profile loaded for Tom.");
       assertDoesNotContain("No profile found for Tom. Profile not loaded.", true);

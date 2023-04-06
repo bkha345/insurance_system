@@ -10,6 +10,12 @@ public class InsuranceSystem {
   // initialises arraylist of users
   private ArrayList<User> userList = new ArrayList<User>();
 
+  // Stores adress of currently loaded user
+  private User currentlyLoaded;
+
+  // checks if any user is loaded, set to false initially
+  private boolean loaded = false;
+
   public void printDatabase() {
     // checks how many profiles present
     int userCount = userList.size();
@@ -32,58 +38,136 @@ public class InsuranceSystem {
 
     // Lists each user using for each loop
     for (User user : userList) {
-      MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-          Integer.toString(pos), user.getUserName(), user.getAge());
+      if (user.getLoaded()) {
+        MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
+            "*** ", Integer.toString(pos), user.getUserName(), user.getAge(),user.getPolicyNumber(),user.getPluralisation(),user.getTotal);
+      } else {
+        MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
+            Integer.toString(pos), user.getUserName(), user.getAge());
+      }
       pos++;
     }
   }
 
   public void createNewProfile(String userName, String age) {
-    // removes all spaces in userName (for checking case where only spaces are added)
-    String userNameWithoutSpace = userName.replaceAll(" ", "");
 
-    // changes username to properly capitalised version
-    String capitalisedUserName =
-        userNameWithoutSpace.substring(0, 1).toUpperCase()
-            + userNameWithoutSpace.substring(1).toLowerCase();
+    String cleanedUsername = User.clean(userName);
+
+    //checks if there is currently loaded profile
+    if(loaded){
+      MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(currentlyLoaded.getUserName());
+      return;
+    }
 
     // checks if age is positive interger, if not returns error message
     if (Integer.parseInt(age) <= 0) {
-      MessageCli.INVALID_AGE.printMessage(age, capitalisedUserName);
+      MessageCli.INVALID_AGE.printMessage(age, cleanedUsername);
       return;
     }
 
     // checks if username is more than 3 characters
-    if (userNameWithoutSpace.length() < 3) {
-      MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(capitalisedUserName);
+    if (cleanedUsername.length() < 3) {
+      MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(cleanedUsername);
       return;
     }
 
     // checks if username is unique, if not returns error message
     for (User user : userList) {
-      if (user.getUserName().toLowerCase().equals(userNameWithoutSpace.toLowerCase())) {
-        MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(capitalisedUserName);
+      if (user.getUserName().toLowerCase().equals(cleanedUsername.toLowerCase())) {
+        MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(cleanedUsername);
         return;
       }
     }
 
     // if age and username is valid puts profile in arraylist
-    User newUser = new User(capitalisedUserName, age);
+    User newUser = new User(cleanedUsername, age);
     userList.add(newUser);
-    MessageCli.PROFILE_CREATED.printMessage(capitalisedUserName, age);
+    MessageCli.PROFILE_CREATED.printMessage(cleanedUsername, age);
   }
 
-  public void loadProfile(String userName) {}
+  public void loadProfile(String userName) {
+
+    // Puts input in title case
+    String cleanedInput = User.clean(userName);
+
+    // checks if desired profile exists
+    for (User user : userList) {
+      if (user.getUserName().equals(cleanedInput)) {
+        MessageCli.PROFILE_LOADED.printMessage(cleanedInput);
+
+        // unloads current loaded user
+        if (loaded) {
+          currentlyLoaded.unload();
+        }
+        // loads selected user and stores in variable
+        user.load();
+        currentlyLoaded = user;
+        loaded = true;
+        return;
+      }
+    }
+    MessageCli.NO_PROFILE_FOUND_TO_LOAD.printMessage(cleanedInput);
+  }
 
   public void unloadProfile() {
-    // TODO: Complete this method.
+
+    // checks if any user is loaded, if yes unloads user
+    if (loaded) {
+      MessageCli.PROFILE_UNLOADED.printMessage(currentlyLoaded.getUserName());
+      currentlyLoaded.unload();
+      loaded = false;
+    } else {
+      MessageCli.NO_PROFILE_LOADED.printMessage();
+    }
   }
 
   public void deleteProfile(String userName) {
-    // TODO: Complete this method.
+
+    // Puts input in title case
+    String cleanedInput = User.clean(userName);
+
+    // checks if desired profile exists
+    for (User user : userList) {
+      if (user.getUserName().equals(cleanedInput)) {
+
+        // checks if user is loaded, if yes returns error message
+        if (user.getLoaded()) {
+          MessageCli.CANNOT_DELETE_PROFILE_WHILE_LOADED.printMessage(cleanedInput);
+          return;
+        }
+
+        // removes user from arraylist
+        userList.remove(user);
+        MessageCli.PROFILE_DELETED.printMessage(cleanedInput);
+        return;
+      }
+    }
+    MessageCli.NO_PROFILE_FOUND_TO_DELETE.printMessage(cleanedInput);
   }
 
   public void createPolicy(PolicyType type, String[] options) {
-    // TODO: Complete this method.
+   
+    if (!loaded){
+      MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
+    }
+
+    switch(type){
+    case LIFE:
+      if(!currentlyLoaded.lifeInsured()){
+        currentlyLoaded.newLife(options);
+      }else{
+        MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
+      }
+      break;
+      
+      case CAR:
+      currentlyLoaded.newCar(options);
+      break;
+
+      case HOME:
+      currentlyLoaded.newHome(options);
+      break;
+
+    }
   }
 }
