@@ -1,13 +1,15 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+
 public class User {
   private String userName;
   private String age;
   private boolean loaded;
   private Policy life;
-  private Policy car;
-  private Policy home;
-
+  private ArrayList<Car> carPolicies = new ArrayList<Car>();
+  private ArrayList<Home> homePolicies = new ArrayList<Home>();
+  private boolean lifeInsured=false;
 
   public User(String userName, String age) {
     this.userName = userName;
@@ -44,5 +46,25 @@ public class User {
 
   public boolean getLoaded() {
     return loaded;
+  }
+
+  public void newLife(String[] options){
+    Life life=new Life(Integer.parseInt(options[0]), Integer.parseInt(this.age));
+  }
+
+  public void newCar(String[] options){
+
+    Car car=new Car (options, Integer.parseInt(this.age));
+    carPolicies.add(car);
+  }
+
+  public void newHouse(String[] options){
+   
+    Home home=new Home (options);
+    homePolicies.add(home);
+  }
+
+  public boolean getlifeInsured(){
+    return lifeInsured;
   }
 }

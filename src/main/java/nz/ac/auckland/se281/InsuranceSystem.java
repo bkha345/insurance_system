@@ -153,10 +153,12 @@ public class InsuranceSystem {
 
     switch(type){
     case LIFE:
-      if(!currentlyLoaded.lifeInsured()){
-        currentlyLoaded.newLife(options);
-      }else{
+      if(currentlyLoaded.getlifeInsured()){
         MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
+      }else if(Integer.parseInt(currentlyLoaded.getAge())>100){
+        MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
+      }else{
+        currentlyLoaded.newLife(options);
       }
       break;
       
