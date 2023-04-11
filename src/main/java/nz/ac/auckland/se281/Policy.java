@@ -2,34 +2,48 @@ package nz.ac.auckland.se281;
 
 public abstract class Policy {
     
-    protected int premium;
+    private int premium;
+    private int sumInsured;
     
     //constructor for life policy
     public Policy(int sumInsured, int premiumPercentage){
-        this.premium=(premiumPercentage/100)*sumInsured;
+        this.premium=premiumPercentage*sumInsured/10000;
+        this.sumInsured=sumInsured;
     }
 
     //constructor for car policy
     public Policy(int sumInsured, int age, String mechanicalBreakdown) {
         
+        this.sumInsured=sumInsured;
+
         if(age<25){
-            premium=(15/100)*sumInsured;
+            this.premium=15*sumInsured/100;
         }else{
-            premium=(10/100)*sumInsured;
+            this.premium=10*sumInsured/100;
         }
 
         if (mechanicalBreakdown.equals("yes")){
-            premium+=80;
+            this.premium+=80;
         }
     }
 
     //constructor for home policy
     public Policy(int sumInsured, String Rental){
 
+        this.sumInsured=sumInsured;
+
         if(Rental.equals("yes")){
-            premium=(2/100)*sumInsured;
+            this.premium=2*sumInsured/100;
         }else{
-            premium=(1/100)*sumInsured;
+            this.premium=1*sumInsured/100;
         }
+    }
+
+    public int getPremium(){
+        return premium;
+    }
+
+    public String getSumInsured(){
+        return Integer.toString(sumInsured);
     }
 }

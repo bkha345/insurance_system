@@ -12,4 +12,8 @@ public class Car extends Policy{
         this.makeAndModel=options[1];
         this.licensePlate=options[2];  
     }
+
+    public String getMakeAndModel(){
+        return makeAndModel;
+    }
 }

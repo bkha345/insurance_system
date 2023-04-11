@@ -40,11 +40,14 @@ public class InsuranceSystem {
     for (User user : userList) {
       if (user.getLoaded()) {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
-            "*** ", Integer.toString(pos), user.getUserName(), user.getAge(),user.getPolicyNumber(),user.getPluralisation(),user.getTotal);
+            "*** ", Integer.toString(pos), user.getUserName(), user.getAge(),user.getPolicyNumber(),user.getPluralisation(), user.getTotal());
       } else {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
-            Integer.toString(pos), user.getUserName(), user.getAge());
+          "", Integer.toString(pos), user.getUserName(), user.getAge(),user.getPolicyNumber(),user.getPluralisation(), user.getTotal());
       }
+
+      //prints each policy of user
+      user.printPolicies();
       pos++;
     }
   }
@@ -149,27 +152,33 @@ public class InsuranceSystem {
    
     if (!loaded){
       MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
+      return;
     }
 
     switch(type){
     case LIFE:
       if(currentlyLoaded.getlifeInsured()){
         MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
+        return;
       }else if(Integer.parseInt(currentlyLoaded.getAge())>100){
         MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
+        return;
       }else{
         currentlyLoaded.newLife(options);
+        MessageCli.NEW_POLICY_CREATED.printMessage("life", currentlyLoaded.getUserName());
       }
       break;
       
       case CAR:
       currentlyLoaded.newCar(options);
+      MessageCli.NEW_POLICY_CREATED.printMessage("car", currentlyLoaded.getUserName());
       break;
 
       case HOME:
       currentlyLoaded.newHome(options);
+      MessageCli.NEW_POLICY_CREATED.printMessage("home", currentlyLoaded.getUserName());
       break;
-
+      
     }
   }
 }

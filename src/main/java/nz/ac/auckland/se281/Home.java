@@ -7,8 +7,11 @@ public class Home extends Policy{
     public Home(String[] options){
         
         super(Integer.parseInt(options[0]),options[2]);
-        Address=options[2];
+        Address=options[1];
     
     }
 
+    public String getAddress(){
+        return Address;
+    }
 }
