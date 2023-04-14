@@ -40,13 +40,25 @@ public class InsuranceSystem {
     for (User user : userList) {
       if (user.getLoaded()) {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
-            "*** ", Integer.toString(pos), user.getUserName(), user.getAge(),user.getPolicyNumber(),user.getPluralisation(), user.getTotal());
+            "*** ",
+            Integer.toString(pos),
+            user.getUserName(),
+            user.getAge(),
+            user.getPolicyNumber(),
+            user.getPluralisation(),
+            user.getTotal());
       } else {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
-          "", Integer.toString(pos), user.getUserName(), user.getAge(),user.getPolicyNumber(),user.getPluralisation(), user.getTotal());
+            "",
+            Integer.toString(pos),
+            user.getUserName(),
+            user.getAge(),
+            user.getPolicyNumber(),
+            user.getPluralisation(),
+            user.getTotal());
       }
 
-      //prints each policy of user
+      // prints each policy of user
       user.printPolicies();
       pos++;
     }
@@ -56,8 +68,8 @@ public class InsuranceSystem {
 
     String cleanedUsername = User.clean(userName);
 
-    //checks if there is currently loaded profile
-    if(loaded){
+    // checks if there is currently loaded profile
+    if (loaded) {
       MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(currentlyLoaded.getUserName());
       return;
     }
@@ -150,39 +162,37 @@ public class InsuranceSystem {
   }
 
   public void createPolicy(PolicyType type, String[] options) {
-   
-    //does not create policy if profile is not loaded
-    if (!loaded){
+
+    // does not create policy if profile is not loaded
+    if (!loaded) {
       MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
       return;
     }
 
+    // checks if user is within age limit and no prior life policy is created
+    switch (type) {
+      case LIFE:
+        if (currentlyLoaded.getlifeInsured()) {
+          MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
+          return;
+        } else if (Integer.parseInt(currentlyLoaded.getAge()) > 100) {
+          MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
+          return;
+        } else {
+          currentlyLoaded.newLife(options);
+          MessageCli.NEW_POLICY_CREATED.printMessage("life", currentlyLoaded.getUserName());
+        }
+        break;
 
-    //checks if user is within age limit and no prior life policy is created
-    switch(type){
-    case LIFE:
-      if(currentlyLoaded.getlifeInsured()){
-        MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
-        return;
-      }else if(Integer.parseInt(currentlyLoaded.getAge())>100){
-        MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
-        return;
-      }else{
-        currentlyLoaded.newLife(options);
-        MessageCli.NEW_POLICY_CREATED.printMessage("life", currentlyLoaded.getUserName());
-      }
-      break;
-      
       case CAR:
-      currentlyLoaded.newCar(options);
-      MessageCli.NEW_POLICY_CREATED.printMessage("car", currentlyLoaded.getUserName());
-      break;
+        currentlyLoaded.newCar(options);
+        MessageCli.NEW_POLICY_CREATED.printMessage("car", currentlyLoaded.getUserName());
+        break;
 
       case HOME:
-      currentlyLoaded.newHome(options);
-      MessageCli.NEW_POLICY_CREATED.printMessage("home", currentlyLoaded.getUserName());
-      break;
-      
+        currentlyLoaded.newHome(options);
+        MessageCli.NEW_POLICY_CREATED.printMessage("home", currentlyLoaded.getUserName());
+        break;
     }
   }
 }
