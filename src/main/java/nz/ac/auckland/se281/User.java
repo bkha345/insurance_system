@@ -48,6 +48,8 @@ public class User {
     return loaded;
   }
 
+
+  //creates policies and add to policy arraylist of specific user
   public void newLife(String[] options){
     Life life=new Life(Integer.parseInt(options[0]), Integer.parseInt(this.age));
     Policies.add(life);
@@ -65,10 +67,30 @@ public class User {
     Policies.add(home);
   }
 
+  //determines if user is already life insured
   public boolean getlifeInsured(){
     return lifeInsured;
   }
+  
+  public void printPolicies(){
+    for (Policy policy:Policies){
+      if (policy instanceof Life){
+        MessageCli.PRINT_DB_LIFE_POLICY.printMessage(policy.getSumInsured(),Integer.toString(policy.getPremium()),Integer.toString(policy.getPremium()*(100-discount)/100));
+      }
 
+      if (policy instanceof Car){
+        Car car=(Car) policy;
+        MessageCli.PRINT_DB_CAR_POLICY.printMessage(car.getMakeAndModel(), car.getSumInsured(), Integer.toString(car.getPremium()), Integer.toString(car.getPremium()*(100-discount)/100));
+      }
+
+      if (policy instanceof Home){
+        Home home=(Home) policy;
+        MessageCli.PRINT_DB_HOME_POLICY.printMessage(home.getAddress(), home.getSumInsured(), Integer.toString(home.getPremium()),Integer.toString(home.getPremium()*(100-discount)/100));
+      }
+    }
+  }
+  
+  //getters for printDB
   public String getPolicyNumber(){
 
     //converts life insured boolean to integer by returning 1 if true and 0 if false
@@ -105,6 +127,8 @@ public class User {
       totalBeforeDiscount+= policy.getPremium();
     }
 
+
+    //returns premium after discount
     return Integer.toString(totalBeforeDiscount*(100-discount)/100);
   }
 
@@ -112,21 +136,5 @@ public class User {
     return discount;
   }
 
-  public void printPolicies(){
-    for (Policy policy:Policies){
-      if (policy instanceof Life){
-        MessageCli.PRINT_DB_LIFE_POLICY.printMessage(policy.getSumInsured(),Integer.toString(policy.getPremium()),Integer.toString(policy.getPremium()*(100-discount)/100));
-      }
 
-      if (policy instanceof Car){
-        Car car=(Car) policy;
-        MessageCli.PRINT_DB_CAR_POLICY.printMessage(car.getMakeAndModel(), car.getSumInsured(), Integer.toString(car.getPremium()), Integer.toString(car.getPremium()*(100-discount)/100));
-      }
-
-      if (policy instanceof Home){
-        Home home=(Home) policy;
-        MessageCli.PRINT_DB_HOME_POLICY.printMessage(home.getAddress(), home.getSumInsured(), Integer.toString(home.getPremium()),Integer.toString(home.getPremium()*(100-discount)/100));
-      }
-    }
-  }
 }

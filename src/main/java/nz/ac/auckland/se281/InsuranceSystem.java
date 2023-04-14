@@ -10,7 +10,7 @@ public class InsuranceSystem {
   // initialises arraylist of users
   private ArrayList<User> userList = new ArrayList<User>();
 
-  // Stores adress of currently loaded user
+  // Stores address of currently loaded user
   private User currentlyLoaded;
 
   // checks if any user is loaded, set to false initially
@@ -145,16 +145,20 @@ public class InsuranceSystem {
         return;
       }
     }
+
     MessageCli.NO_PROFILE_FOUND_TO_DELETE.printMessage(cleanedInput);
   }
 
   public void createPolicy(PolicyType type, String[] options) {
    
+    //does not create policy if profile is not loaded
     if (!loaded){
       MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
       return;
     }
 
+
+    //checks if user is within age limit and no prior life policy is created
     switch(type){
     case LIFE:
       if(currentlyLoaded.getlifeInsured()){

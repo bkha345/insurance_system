@@ -8,9 +8,11 @@ public class Car extends Policy{
     
     public Car(String[] options, int age){
         
+        //returns breakdown and sumInsured to super constructor to find premium
         super(Integer.parseInt(options[0]), age, options[3]);
         this.makeAndModel=options[1];
         this.licensePlate=options[2];  
+   
     }
 
     public String getMakeAndModel(){
