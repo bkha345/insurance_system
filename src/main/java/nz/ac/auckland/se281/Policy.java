@@ -28,11 +28,11 @@ public abstract class Policy {
   }
 
   // constructor for home policy
-  public Policy(int sumInsured, String Rental) {
+  public Policy(int sumInsured, String rental) {
 
     this.sumInsured = sumInsured;
 
-    if (Rental.equals("yes")) {
+    if (rental.equals("yes")) {
       this.premium = 2 * sumInsured / 100;
     } else {
       this.premium = 1 * sumInsured / 100;

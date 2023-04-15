@@ -179,18 +179,18 @@ public class InsuranceSystem {
           MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentlyLoaded.getUserName());
           return;
         } else {
-          currentlyLoaded.newLife(options);
+          currentlyLoaded.makeLife(options);
           MessageCli.NEW_POLICY_CREATED.printMessage("life", currentlyLoaded.getUserName());
         }
         break;
 
       case CAR:
-        currentlyLoaded.newCar(options);
+        currentlyLoaded.makeCar(options);
         MessageCli.NEW_POLICY_CREATED.printMessage("car", currentlyLoaded.getUserName());
         break;
 
       case HOME:
-        currentlyLoaded.newHome(options);
+        currentlyLoaded.makeHome(options);
         MessageCli.NEW_POLICY_CREATED.printMessage("home", currentlyLoaded.getUserName());
         break;
     }

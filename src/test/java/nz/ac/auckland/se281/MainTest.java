@@ -420,57 +420,113 @@ public class MainTest {
     }
 
     @Test
-    public void TY_01_your_own_test() throws Exception {
+    public void funnTask2Sequence() throws Exception {
+      // Write your own test here, in the same format as the other tests.
       runCommands(
-        unpack( //
-            CREATE_SOME_CLIENTS, //
-            LOAD_PROFILE,
-            "Tom", //
-            POLICY_HOME,
-            options("1000000", "20 Symonds Street", "yes"), //
-            POLICY_CAR,
-            options("55000", "Subaru Impreza", "SUB123", "no"), //
-            UNLOAD_PROFILE, //
-            LOAD_PROFILE,
-            "Jenny", //
-            POLICY_CAR,
-            options("55000", "Subaru Impreza", "SUB123", "yes"), //
-            UNLOAD_PROFILE, //
-            LOAD_PROFILE,
-    "Jenny",
-    POLICY_HOME,
-    options("1000000", "20 Symonds Street", "yes"),
-    POLICY_HOME,
-    options("1000000", "20 Queen Street", "no"),
-    POLICY_LIFE,
-    options("1000000"),
-    PRINT_DB));
-
-    assertContains("2: Tom, 25, 2 policies for a total of $22950");
-    assertContains("3: Jenny, 23, 4 policies for a total of $38790");
-
-    assertContains("Car Policy (Subaru Impreza, Sum Insured: $55000, Premium: $5500 -> $4950)");
-    
-
-assertContains("Profile loaded for Jenny.");
-assertContains("New home policy created for Jenny.");
-assertContains("New life policy created for Jenny.");
-
-assertContains("Database has 3 profiles:");
-assertContains("1: Jordan, 21, 0 policies");
-assertContains("*** 3: Jenny, 23, 5 policies");
-
-assertContains(
-"Home Policy (20 Symonds Street, Sum Insured: $1000000, Premium: $20000 -> $16000)");
-assertContains(
-"Home Policy (20 Queen Street, Sum Insured: $1000000, Premium: $10000 -> $8000)");
-assertContains("Life Policy (Sum Insured: $1000000, Premium: $12300 -> $9840)");
+          CREATE_PROFILE,
+          "MOMBA",
+          "1010",
+          LOAD_PROFILE,
+          "MOMBA",
+          CREATE_PROFILE,
+          "KOOkky",
+          "15",
+          PRINT_DB,
+          UNLOAD_PROFILE,
+          CREATE_PROFILE,
+          "KOkky",
+          "15",
+          LOAD_PROFILE,
+          "KoKKy",
+          DELETE_PROFILE,
+          "KOKKy",
+          UNLOAD_PROFILE,
+          DELETE_PROFILE,
+          "kokky",
+          LOAD_PROFILE,
+          "kokky",
+          PRINT_DB,
+          CREATE_PROFILE,
+          "POOPY",
+          17,
+          PRINT_DB,
+          LOAD_PROFILE,
+          "POOPy",
+          DELETE_PROFILE,
+          "MOMBA",
+          DELETE_PROFILE,
+          "FJJFJF");
+      assertContains("Profile loaded for Momba.");
+      assertContains("Cannot create a new profile. First unload the profile for Momba.");
+      assertContains("Database has 1 profile:");
     }
 
     @Test
     public void TY_02_your_own_test() throws Exception {
       // Write your own test here, in the same format as the other tests.
-      runCommands(PRINT_DB);
+      runCommands(
+          CREATE_PROFILE,
+          "MOMBA",
+          "10",
+          LOAD_PROFILE,
+          "MOMBA",
+          CREATE_PROFILE,
+          "KOOkky",
+          "15",
+          PRINT_DB,
+          UNLOAD_PROFILE,
+          CREATE_PROFILE,
+          "KOkky",
+          "15",
+          LOAD_PROFILE,
+          "KoKKy",
+          DELETE_PROFILE,
+          "KOKKy",
+          UNLOAD_PROFILE,
+          DELETE_PROFILE,
+          "kokky",
+          LOAD_PROFILE,
+          "kokky",
+          PRINT_DB,
+          CREATE_PROFILE,
+          "POOPY",
+          17,
+          PRINT_DB,
+          LOAD_PROFILE,
+          "POOPy",
+          CREATE_PROFILE,
+          "FJJFJF",
+          "134", //
+          POLICY_LIFE,
+          options("1000000"),
+          POLICY_HOME,
+          options("2000000", "20 DOOKIE Street", "yes"),
+          POLICY_HOME,
+          options("10000000", "40 CDds Street", "no"),
+          POLICY_LIFE,
+          options("1000000"),
+          PRINT_DB,
+          UNLOAD_PROFILE,
+          CREATE_PROFILE,
+          "FJJFJF",
+          "134",
+          LOAD_PROFILE,
+          "fjjfjf",
+          POLICY_CAR,
+          options("55000", "Subaru Impreza", "SUB123", "no"), //
+          POLICY_CAR,
+          options("55400", "Suuubaru Impreza", "SUB123", "yes"),
+          POLICY_LIFE,
+          options("1000000"),
+          PRINT_DB,
+          UNLOAD_PROFILE,
+          LOAD_PROFILE,
+          "mm",
+          LOAD_PROFILE,
+          "mOMBA",
+          POLICY_CAR,
+          options("554800", "Suuubaru Impreza", "SUB123", "yes"),
+          PRINT_DB);
       assertContains("");
     }
   }

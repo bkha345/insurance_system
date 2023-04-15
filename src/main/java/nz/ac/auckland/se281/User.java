@@ -6,7 +6,7 @@ public class User {
   private String userName;
   private String age;
   private boolean loaded;
-  private ArrayList<Policy> Policies = new ArrayList<Policy>();
+  private ArrayList<Policy> policies = new ArrayList<Policy>();
   private boolean lifeInsured = false;
   private int numberOfPolicies = 0;
   private int discount = 0;
@@ -49,21 +49,24 @@ public class User {
   }
 
   // creates policies and add to policy arraylist of specific user
-  public void newLife(String[] options) {
+  public void makeLife(String[] options) {
     Life life = new Life(Integer.parseInt(options[0]), Integer.parseInt(this.age));
-    Policies.add(life);
+    policies.add(life);
+
+    // sets lifeInsured to true so no more life policies could be created
+    lifeInsured = true;
   }
 
-  public void newCar(String[] options) {
+  public void makeCar(String[] options) {
 
     Car car = new Car(options, Integer.parseInt(this.age));
-    Policies.add(car);
+    policies.add(car);
   }
 
-  public void newHome(String[] options) {
+  public void makeHome(String[] options) {
 
     Home home = new Home(options);
-    Policies.add(home);
+    policies.add(home);
   }
 
   // determines if user is already life insured
@@ -71,8 +74,9 @@ public class User {
     return lifeInsured;
   }
 
+  // formats policies with discounted premium
   public void printPolicies() {
-    for (Policy policy : Policies) {
+    for (Policy policy : policies) {
       if (policy instanceof Life) {
         MessageCli.PRINT_DB_LIFE_POLICY.printMessage(
             policy.getSumInsured(),
@@ -103,8 +107,7 @@ public class User {
   // getters for printDB
   public String getPolicyNumber() {
 
-    // converts life insured boolean to integer by returning 1 if true and 0 if false
-    numberOfPolicies = Boolean.compare(lifeInsured, false) + Policies.size();
+    numberOfPolicies = policies.size();
 
     // sets discount based on number of policies
     if (numberOfPolicies == 2) {
@@ -133,7 +136,7 @@ public class User {
     int totalBeforeDiscount = 0;
 
     // adds all premiums of user together
-    for (Policy policy : Policies) {
+    for (Policy policy : policies) {
       totalBeforeDiscount += policy.getPremium();
     }
 
