@@ -74,8 +74,8 @@ public class User {
     return lifeInsured;
   }
 
-  // formats policies with discounted premium
   public void printPolicies() {
+    // formats policies with discounted premium based on type
     for (Policy policy : policies) {
       if (policy instanceof Life) {
         MessageCli.PRINT_DB_LIFE_POLICY.printMessage(
