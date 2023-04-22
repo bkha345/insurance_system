@@ -411,15 +411,7 @@ public class MainTest {
           "Home Policy (20 Symonds Street, Sum Insured: $1000000, Premium: $20000 -> $18000)");
       assertContains("Car Policy (Subaru Impreza, Sum Insured: $55000, Premium: $5500 -> $4950)");
       assertContains("Car Policy (Subaru Impreza, Sum Insured: $55000, Premium: $8250 -> $8250)");
-    }
-  }
-
-  public static class YourTests extends CliTest {
-    public YourTests() {
-      super(Main.class);
-    }
-
-    @Test
+    }   @Test
     public void funnTask2Sequence() throws Exception {
       // Write your own test here, in the same format as the other tests.
       runCommands(
@@ -1695,6 +1687,14 @@ public class MainTest {
           "Life Policy (Sum Insured: $15000000, Premium: $184500 -> $166050)", true);
       assertDoesNotContain("3: Jenny, 23, 2 policies", true);
     } 
+  }
+
+  public static class YourTests extends CliTest {
+    public YourTests() {
+      super(Main.class);
+    }
+
+ 
   }
   
 
